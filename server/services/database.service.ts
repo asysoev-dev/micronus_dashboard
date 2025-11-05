@@ -1,5 +1,5 @@
-import User from '~~/server/models/User';
-import { sequelize } from '~~/server/models/index';
+import { sequelize } from '~~/server/db/models/index';
+import User from '~~/server/db/models/User';
 
 export const databaseService = {
     async initialize() {

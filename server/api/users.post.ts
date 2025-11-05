@@ -1,6 +1,6 @@
 // import databaseService from '~~/server/services/database.service';
 import { hash } from 'bcrypt';
-import User from '~~/server/models/User';
+import User from '~~/server/db/models/User';
 
 export default defineEventHandler(async event => {
     const body = await readBody(event);

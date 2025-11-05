@@ -47,7 +47,7 @@ const handleRegistration = async () => {
             isRequiredStyle
         />
         <UiInput
-            id="passwordId"
+            id="repeatPasswordId"
             v-model="repeatPassword"
             type="password"
             label="Повторите пароль"

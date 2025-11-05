@@ -13,7 +13,11 @@
         "format": "prettier --write .",
         "format:check": "prettier --check .",
         "lint:all": "npm run lint && npm run format:check",
-        "lint:fix:all": "npm run lint:fix && npm run format"
+        "lint:fix:all": "npm run lint:fix && npm run format",
+        "db:migrate": "dotenv -e .env -- npx sequelize-cli db:migrate",
+        "db:create:migration": "dotenv -e .env -- npx sequelize-cli migration:generate --name",
+        "db:migrate:undo": "dotenv -e .env -- npx sequelize-cli db:migrate:undo",
+        "db:migrate:status": "dotenv -e .env -- npx sequelize-cli db:migrate:status"
     },
     "dependencies": {
         "@tailwindcss/vite": "^4.1.16",
@@ -34,6 +38,7 @@
         "@types/pg": "^8.15.6",
         "@types/sequelize": "^4.28.20",
         "autoprefixer": "^10.4.21",
+        "dotenv-cli": "^11.0.0",
         "eslint": "^8.57.1",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-nuxt": "^4.0.0",

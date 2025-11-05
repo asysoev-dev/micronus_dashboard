@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize';
+import User from './User';
 
 const sequelize = new Sequelize(process.env.DATABASE_URL!, {
     dialect: 'postgres',
@@ -12,5 +13,16 @@ const sequelize = new Sequelize(process.env.DATABASE_URL!, {
     },
 });
 
+const models = {
+    User: User.initialize(sequelize),
+    // Добавьте другие модели здесь
+};
+
+// Object.values(models).forEach(model => {
+//     if (model.associate) {
+//         model.associate(models);
+//     }
+// });
+
 export { sequelize };
-export default sequelize;
+export default models;

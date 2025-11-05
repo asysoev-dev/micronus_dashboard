@@ -16,21 +16,24 @@
         "vue/script-indent": ["error", 4, { "baseIndent": 0 }],
         "vue/no-multiple-template-root": "off",
         "vue/attribute-hyphenation": "off",
-        "vue/attributes-order": ["error", {
-            "order": [
-                "DEFINITION",
-                "LIST_RENDERING",
-                "CONDITIONALS",
-                "RENDER_MODIFIERS",
-                "GLOBAL",
-                "UNIQUE",
-                "TWO_WAY_BINDING",
-                "OTHER_DIRECTIVES",
-                "OTHER_ATTR",
-                "EVENTS",
-                "CONTENT"
-            ],
-            "alphabetical": false
-        }]
+        "vue/attributes-order": [
+            "error",
+            {
+                "order": [
+                    "DEFINITION",
+                    "LIST_RENDERING",
+                    "CONDITIONALS",
+                    "RENDER_MODIFIERS",
+                    "GLOBAL",
+                    "UNIQUE",
+                    "TWO_WAY_BINDING",
+                    "OTHER_DIRECTIVES",
+                    "OTHER_ATTR",
+                    "EVENTS",
+                    "CONTENT"
+                ],
+                "alphabetical": false
+            }
+        ]
     }
 }
