@@ -2,14 +2,14 @@
 definePageMeta({
     layout: 'admin',
 });
-const login = ref<string>('');
-const password = ref<string>('dfgdfgdf');
+const email = ref<string>('');
+const password = ref<string>('');
 </script>
 
 <template>
     <h1 class="mb-6 text-lg text-center">Авторизация</h1>
     <div class="flex flex-col gap-4">
-        <UiInput id="loginId" v-model="login" type="text" label="Логин" isRequiredStyle />
+        <UiInput id="emailId" v-model="email" type="text" label="E-mail" isRequiredStyle />
         <UiInput
             id="passwordId"
             v-model="password"

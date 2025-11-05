@@ -29,18 +29,21 @@ export const databaseService = {
         return await User.findByPk(id);
     },
 
-    // Получить пользователя по login
-    async getUserByEmail(login: string) {
-        return await User.findOne({ where: { login } });
+    // Получить пользователя по email
+    async getUserByEmail(email: string) {
+        return await User.findOne({ where: { email } });
     },
 
     // Создать пользователя
-    async createUser(userData: { login: string; password?: string }) {
+    async createUser(userData: { name: string; email: string; password?: string }) {
         return await User.create(userData);
     },
 
     // Обновить пользователя
-    async updateUser(id: number, userData: Partial<{ login: string; password: string }>) {
+    async updateUser(
+        id: number,
+        userData: Partial<{ name: string; email: string; password: string }>
+    ) {
         const user = await User.findByPk(id);
         if (!user) throw new Error('Пользователь не найден');
 

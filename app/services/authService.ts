@@ -7,7 +7,8 @@ export interface AuthResponse {
 }
 
 export interface RegisterData {
-    login: string;
+    name: string;
+    email: string;
     password: string;
 }
 

@@ -5,13 +5,15 @@ definePageMeta({
     layout: 'admin',
 });
 
-const login = ref<string>('');
+const name = ref<string>('');
+const email = ref<string>('');
 const password = ref<string>('');
 const repeatPassword = ref<string>('');
 
 const isFilledForm = computed((): boolean => {
     return (
-        login.value.length > 0 &&
+        name.value.length > 0 &&
+        email.value.length > 0 &&
         password.value.length > 0 &&
         repeatPassword.value.length > 0 &&
         password.value === repeatPassword.value
@@ -21,7 +23,8 @@ const isFilledForm = computed((): boolean => {
 const handleRegistration = async () => {
     try {
         const response = await authService.register({
-            login: login.value,
+            name: name.value,
+            email: email.value,
             password: password.value,
         });
         console.log('%c[LOG]response: ', 'color: green;', response);
@@ -34,7 +37,8 @@ const handleRegistration = async () => {
 <template>
     <h1 class="mb-6 text-lg text-center">Регистрация</h1>
     <div class="flex flex-col gap-4">
-        <UiInput id="loginId" v-model="login" type="text" label="Логин" isRequiredStyle />
+        <UiInput id="nameId" v-model="name" type="text" label="Имя" isRequiredStyle />
+        <UiInput id="emailId" v-model="email" type="email" label="E-mail" isRequiredStyle />
         <UiInput
             id="passwordId"
             v-model="password"
