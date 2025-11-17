@@ -1,75 +1,29 @@
-# Nuxt Minimal Starter
+# Micronus - Умный дом
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+**Панель управления для системы умного дома** с настраиваемыми виджетами и дашбордами.
 
-## Setup
-
-Make sure to install dependencies:
+## Установка и запуск
 
 ```bash
-# npm
+# Установка зависимостей
 npm install
 
-# pnpm
-pnpm install
+# Настройка окружения
+cp .env.example .env
+# Заполните DATABASE_URL, JWT_SECRETS
 
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
+# Запуск в dev
 npm run dev
 
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
+# Сборка
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+npm run start
 ```
 
-Locally preview production build:
+## Требования
 
-```bash
-# npm
-npm run preview
+- Node.js 18+
+- PostgreSQL 12+
+- Nuxt 3
 
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+---
