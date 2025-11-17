@@ -1,64 +1,91 @@
-import { DataTypes, Model, Optional } from 'sequelize';
-import type { Sequelize } from 'sequelize';
+import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 
-interface UserAttributes {
-    id: number;
+export interface UserAttributes {
+    id: string;
     name: string;
     email: string;
-    password: string | null;
+    password: string;
     refreshToken: string | null;
     refreshTokenExpires: Date | null;
     createdAt: Date;
     updatedAt: Date;
 }
 
-interface UserCreationAttributes
+export interface UserCreationAttributes
     extends Optional<
         UserAttributes,
         'id' | 'refreshToken' | 'refreshTokenExpires' | 'createdAt' | 'updatedAt'
     > {}
 
+export interface UserSafeAttributes {
+    id: string;
+    name: string;
+    email: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
-    declare id: number;
-    declare name: string;
-    declare email: string;
-    declare password: string | null;
-    declare refreshToken: string | null;
-    declare refreshTokenExpires: Date | null;
-    declare readonly createdAt: Date;
-    declare readonly updatedAt: Date;
+    public get id(): string {
+        return this.getDataValue('id');
+    }
+
+    public get name(): string {
+        return this.getDataValue('name');
+    }
+
+    public get email(): string {
+        return this.getDataValue('email');
+    }
+
+    public get password(): string {
+        return this.getDataValue('password');
+    }
+
+    public get refreshToken(): string | null {
+        return this.getDataValue('refreshToken');
+    }
+
+    public set refreshToken(value: string | null) {
+        this.setDataValue('refreshToken', value);
+    }
+
+    public get refreshTokenExpires(): Date | null {
+        return this.getDataValue('refreshTokenExpires');
+    }
+
+    public set refreshTokenExpires(value: Date | null) {
+        this.setDataValue('refreshTokenExpires', value);
+    }
+
+    public get createdAt(): Date {
+        return this.getDataValue('createdAt');
+    }
+
+    public get updatedAt(): Date {
+        return this.getDataValue('updatedAt');
+    }
 
     static initialize(sequelize: Sequelize) {
         User.init(
             {
                 id: {
-                    type: DataTypes.INTEGER,
-                    autoIncrement: true,
+                    type: DataTypes.UUID,
+                    defaultValue: DataTypes.UUIDV4,
                     primaryKey: true,
+                },
+                name: {
+                    type: DataTypes.STRING(255),
+                    allowNull: false,
                 },
                 email: {
                     type: DataTypes.STRING(255),
                     allowNull: false,
                     unique: true,
-                    validate: {
-                        isEmail: true,
-                        notEmpty: true,
-                    },
-                },
-                name: {
-                    type: DataTypes.STRING(255),
-                    allowNull: false,
-                    validate: {
-                        notEmpty: true,
-                    },
                 },
                 password: {
                     type: DataTypes.STRING(255),
                     allowNull: false,
-                    validate: {
-                        notEmpty: true,
-                        len: [8, 255],
-                    },
                 },
                 refreshToken: {
                     type: DataTypes.STRING(512),
@@ -92,6 +119,35 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
             }
         );
         return User;
+    }
+
+    public isRefreshTokenValid(token: string): boolean {
+        if (!this.refreshToken || !this.refreshTokenExpires) {
+            return false;
+        }
+
+        const now = new Date();
+        return this.refreshToken === token && this.refreshTokenExpires > now;
+    }
+
+    public setRefreshToken(token: string): void {
+        this.refreshToken = token;
+        this.refreshTokenExpires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 дней
+    }
+
+    public clearRefreshToken(): void {
+        this.refreshToken = null;
+        this.refreshTokenExpires = null;
+    }
+
+    public toJSON(): UserSafeAttributes {
+        return {
+            id: this.id,
+            name: this.name,
+            email: this.email,
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt,
+        };
     }
 }
 

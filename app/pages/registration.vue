@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { authService } from '~/services/authService';
+import { AuthService } from '~/services/authService';
 
 definePageMeta({
     layout: 'admin',
@@ -22,12 +22,14 @@ const isFilledForm = computed((): boolean => {
 
 const handleRegistration = async () => {
     try {
-        const response = await authService.register({
+        const response = await AuthService.register({
             name: name.value,
             email: email.value,
             password: password.value,
         });
-        console.log('%c[LOG]response: ', 'color: green;', response);
+        if (response.user.id) {
+            navigateTo('/');
+        }
     } catch (error: any) {
         console.log('Error: ', error);
     }
@@ -53,6 +55,14 @@ const handleRegistration = async () => {
             label="Повторите пароль"
             isRequiredStyle
         />
+        <div class="flex justify-between -mt-2">
+            <NuxtLink
+                :to="`/login`"
+                class="underline text-slate-500 text-xs hover:opacity-75 active:opacity-75"
+            >
+                <span>Авторизация</span>
+            </NuxtLink>
+        </div>
 
         <div class="flex justify-center mt-3">
             <UiButton

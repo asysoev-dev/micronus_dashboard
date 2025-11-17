@@ -1,3 +1,9 @@
+<script setup lang="ts">
+definePageMeta({
+    middleware: 'auth-client',
+});
+</script>
+
 <template>
     <div class="text-slate-50">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus odio est ad eligendi

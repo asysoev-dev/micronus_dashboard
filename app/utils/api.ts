@@ -1,5 +1,5 @@
 class ApiService {
-    private getBaseURL(): string {
+    public getBaseURL(): string {
         const config = useRuntimeConfig();
         return config.public.apiBaseUrl;
     }
@@ -15,12 +15,16 @@ class ApiService {
     ): Promise<T> {
         const url = `${this.getBaseURL()}${endpoint}`;
 
+        const auth = useAuth();
+        const token = auth.getAccessToken();
+
         const config = {
             method: options.method || 'GET',
             body: options.body,
             params: options.params,
             headers: {
                 'Content-Type': 'application/json',
+                ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 ...options.headers,
             },
         };
@@ -28,15 +32,44 @@ class ApiService {
         try {
             const response = await $fetch<T>(url, config);
             return response as T;
-        } catch (error) {
-            // TODO Добавить обработчик ошибок
+        } catch (error: any) {
+            if (error.status === 401 && auth.getRefreshToken()) {
+                try {
+                    const { tokens } = await auth.refreshTokens();
+
+                    const retryConfig = {
+                        ...config,
+                        headers: {
+                            ...config.headers,
+                            Authorization: `Bearer ${tokens.accessToken}`,
+                        },
+                    };
+
+                    const retryResponse = await $fetch<T>(url, retryConfig);
+                    return retryResponse as T;
+                } catch (refreshError) {
+                    console.error('ApiService: Token refresh failed:', refreshError);
+                    this.handleAuthError(auth);
+                    throw refreshError;
+                }
+            }
+
             this.handleError(error);
             throw error;
         }
     }
 
+    private handleAuthError(auth: any): void {
+        if (process.client) {
+            console.log('ApiService: Authentication failed, clearing tokens...');
+            auth.clearTokens();
+
+            const router = useRouter();
+            router.push('/login');
+        }
+    }
+
     private handleError(error: any) {
-        // TODO Добавить показ toast-уведомлений
         console.error('API Error:', error);
     }
 

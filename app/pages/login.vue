@@ -1,9 +1,29 @@
 <script setup lang="ts">
+import { AuthService } from '~/services/authService';
+
 definePageMeta({
     layout: 'admin',
 });
 const email = ref<string>('');
 const password = ref<string>('');
+
+const isFilledForm = computed((): boolean => {
+    return email.value.length > 0 && password.value.length > 0;
+});
+
+const handleLogin = async () => {
+    try {
+        const response = await AuthService.login({
+            email: email.value,
+            password: password.value,
+        });
+        if (response.user.id) {
+            navigateTo('/');
+        }
+    } catch (error: any) {
+        console.log('Error: ', error);
+    }
+};
 </script>
 
 <template>
@@ -37,12 +57,8 @@ const password = ref<string>('');
             <UiButton
                 title="Войти"
                 rightIconName="LogIn"
-                disabled
-                @click="
-                    () => {
-                        console.log('%c[LOG]LogIn: ', 'color: green;');
-                    }
-                "
+                :disabled="!isFilledForm"
+                @click="handleLogin"
             />
         </div>
     </div>
