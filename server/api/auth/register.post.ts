@@ -1,7 +1,7 @@
 import User from '~~/server/db/models/User';
+import type { AuthResponse, RegisterRequest } from '~~/server/types/auth';
 import { CryptoService } from '~~/server/utils/crypto';
 import { JwtService } from '~~/server/utils/jwt';
-import type { RegisterRequest, AuthResponse } from '~~/server/types/auth';
 
 export default defineEventHandler(async event => {
     const body = await readBody<RegisterRequest>(event);
@@ -10,14 +10,14 @@ export default defineEventHandler(async event => {
     if (!name || !email || !password) {
         throw createError({
             statusCode: 400,
-            statusMessage: 'Все поля обязательны',
+            message: 'Все поля обязательны',
         });
     }
 
     if (password.length < 8) {
         throw createError({
             statusCode: 400,
-            statusMessage: 'Пароль должен содержать минимум 8 символов',
+            message: 'Пароль должен содержать минимум 8 символов',
         });
     }
 
@@ -26,7 +26,7 @@ export default defineEventHandler(async event => {
         if (existingUser) {
             throw createError({
                 statusCode: 409,
-                statusMessage: 'Пользователь с таким email уже существует',
+                message: 'Пользователь с таким email уже существует',
             });
         }
 
@@ -52,7 +52,7 @@ export default defineEventHandler(async event => {
     } catch (error: any) {
         throw createError({
             statusCode: 400,
-            statusMessage: error.message,
+            message: error.message,
         });
     }
 });

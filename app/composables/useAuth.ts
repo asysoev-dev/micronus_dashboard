@@ -86,11 +86,9 @@ export const useAuth = () => {
             isLoading.value = true;
             const response = await AuthService.getMe();
             user.value = response.data.user;
-            console.log('✅ User profile loaded:', user.value);
         } catch (error) {
             console.error('Failed to fetch user profile:', error);
             if (getAccessToken()) {
-                console.log('🔄 Token might be invalid, clearing...');
                 clearTokens();
             }
         } finally {

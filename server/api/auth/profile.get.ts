@@ -6,7 +6,7 @@ export default defineEventHandler(async event => {
     if (!userFromContext) {
         throw createError({
             statusCode: 401,
-            statusMessage: 'Требуется авторизация',
+            message: 'Требуется авторизация',
         });
     }
 
@@ -14,11 +14,10 @@ export default defineEventHandler(async event => {
         const user = await User.findByPk(userFromContext.id, {
             attributes: ['id', 'name', 'email', 'createdAt', 'updatedAt'],
         });
-        console.log('%c[LOG]user: ', 'color: green;', user?.dataValues);
         if (!user) {
             throw createError({
                 statusCode: 404,
-                statusMessage: 'Пользователь не найден',
+                message: 'Пользователь не найден',
             });
         }
 
@@ -31,7 +30,7 @@ export default defineEventHandler(async event => {
     } catch (error: any) {
         throw createError({
             statusCode: 500,
-            statusMessage: 'Ошибка при получении данных пользователя',
+            message: 'Ошибка при получении данных пользователя',
             message: error.message,
         });
     }

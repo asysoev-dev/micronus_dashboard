@@ -1,6 +1,6 @@
 import User from '~~/server/db/models/User';
+import type { AuthResponse, RefreshRequest } from '~~/server/types/auth';
 import { JwtService } from '~~/server/utils/jwt';
-import type { RefreshRequest, AuthResponse } from '~~/server/types/auth';
 
 export default defineEventHandler(async event => {
     const body = await readBody<RefreshRequest>(event);
@@ -9,7 +9,7 @@ export default defineEventHandler(async event => {
     if (!refreshToken) {
         throw createError({
             statusCode: 400,
-            statusMessage: 'Refresh token обязателен',
+            message: 'Refresh token обязателен',
         });
     }
 
@@ -23,7 +23,7 @@ export default defineEventHandler(async event => {
         if (!user || !user.isRefreshTokenValid(refreshToken)) {
             throw createError({
                 statusCode: 401,
-                statusMessage: 'Неверный refresh token',
+                message: 'Неверный refresh token',
             });
         }
 
@@ -41,7 +41,7 @@ export default defineEventHandler(async event => {
     } catch (error: any) {
         throw createError({
             statusCode: 401,
-            statusMessage: 'Неверный refresh token',
+            message: 'Неверный refresh token',
         });
     }
 });

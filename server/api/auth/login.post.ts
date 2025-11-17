@@ -1,7 +1,7 @@
 import User from '~~/server/db/models/User';
+import type { AuthResponse, LoginRequest } from '~~/server/types/auth';
 import { CryptoService } from '~~/server/utils/crypto';
 import { JwtService } from '~~/server/utils/jwt';
-import type { LoginRequest, AuthResponse } from '~~/server/types/auth';
 
 export default defineEventHandler(async event => {
     const body = await readBody<LoginRequest>(event);
@@ -10,7 +10,7 @@ export default defineEventHandler(async event => {
     if (!email || !password) {
         throw createError({
             statusCode: 400,
-            statusMessage: 'Email и пароль обязательны',
+            message: 'Email и пароль обязательны',
         });
     }
 
@@ -19,7 +19,7 @@ export default defineEventHandler(async event => {
         if (!user || !user?.password) {
             throw createError({
                 statusCode: 401,
-                statusMessage: 'Неверный email или пароль',
+                message: 'Неверный email или пароль',
             });
         }
 
@@ -27,7 +27,7 @@ export default defineEventHandler(async event => {
         if (!isPasswordValid) {
             throw createError({
                 statusCode: 401,
-                statusMessage: 'Неверный email или пароль',
+                message: 'Неверный email или пароль',
             });
         }
 
@@ -46,7 +46,7 @@ export default defineEventHandler(async event => {
     } catch (error: any) {
         throw createError({
             statusCode: 400,
-            statusMessage: error.message,
+            message: error.message,
         });
     }
 });

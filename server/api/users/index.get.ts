@@ -14,8 +14,7 @@ export default defineEventHandler(async () => {
     } catch (error: any) {
         throw createError({
             statusCode: 500,
-            statusMessage: 'Failed to fetch users',
-            message: error.message,
+            message: 'Failed to fetch users',
         });
     }
 });

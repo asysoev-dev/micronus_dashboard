@@ -1,5 +1,5 @@
-import { JwtService } from '~~/server/utils/jwt';
 import User from '~~/server/db/models/User';
+import { JwtService } from '~~/server/utils/jwt';
 
 export default defineEventHandler(async event => {
     const authHeader = getHeader(event, 'authorization');
@@ -7,7 +7,7 @@ export default defineEventHandler(async event => {
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         throw createError({
             statusCode: 401,
-            statusMessage: 'Требуется авторизация',
+            message: 'Требуется авторизация',
         });
     }
 

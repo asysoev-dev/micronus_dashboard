@@ -1,5 +1,5 @@
-import { JwtService } from '~~/server/utils/jwt';
 import User from '~~/server/db/models/User';
+import { JwtService } from '~~/server/utils/jwt';
 
 export default defineEventHandler(async event => {
     if (!event.path?.startsWith('/api/')) {
@@ -22,7 +22,7 @@ export default defineEventHandler(async event => {
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         throw createError({
             statusCode: 401,
-            statusMessage: 'Требуется авторизация',
+            message: 'Требуется авторизация',
         });
     }
 
@@ -36,7 +36,7 @@ export default defineEventHandler(async event => {
         if (!user) {
             throw createError({
                 statusCode: 401,
-                statusMessage: 'Пользователь не найден',
+                message: 'Пользователь не найден',
             });
         }
 
@@ -44,7 +44,7 @@ export default defineEventHandler(async event => {
     } catch (error) {
         throw createError({
             statusCode: 401,
-            statusMessage: 'Неверный токен',
+            message: 'Неверный токен',
         });
     }
 });
