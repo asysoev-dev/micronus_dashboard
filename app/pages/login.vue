@@ -4,14 +4,16 @@ import { AuthService } from '~/services/authService';
 definePageMeta({
     layout: 'admin',
 });
-const email = ref<string>('');
-const password = ref<string>('');
+const email = ref('');
+const password = ref('');
+const isLoading = ref(false);
 
-const isFilledForm = computed((): boolean => {
+const isFilledForm = computed(() => {
     return email.value.length > 0 && password.value.length > 0;
 });
 
 const handleLogin = async () => {
+    isLoading.value = true;
     try {
         const response = await AuthService.login({
             email: email.value,
@@ -22,13 +24,15 @@ const handleLogin = async () => {
         }
     } catch (error: any) {
         console.log('Error: ', error);
+    } finally {
+        isLoading.value = false;
     }
 };
 </script>
 
 <template>
     <h1 class="mb-6 text-lg text-center">Авторизация</h1>
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4" @keydown.enter="handleLogin">
         <UiInput id="emailId" v-model="email" type="text" label="E-mail" isRequiredStyle />
         <UiInput
             id="passwordId"
@@ -55,9 +59,9 @@ const handleLogin = async () => {
 
         <div class="flex justify-center mt-3">
             <UiButton
-                title="Войти"
+                :title="isLoading ? 'Отправка...' : 'Войти'"
                 rightIconName="LogIn"
-                :disabled="!isFilledForm"
+                :disabled="!isFilledForm || isLoading"
                 @click="handleLogin"
             />
         </div>

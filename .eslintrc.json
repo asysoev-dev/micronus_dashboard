@@ -13,7 +13,7 @@
         "no-debugger": "warn",
         "@typescript-eslint/no-unused-vars": "error",
         "@typescript-eslint/no-explicit-any": "off",
-        "vue/script-indent": ["error", 4, { "baseIndent": 0 }],
+        "vue/script-indent": "off",
         "vue/no-multiple-template-root": "off",
         "vue/attribute-hyphenation": "off",
         "vue/attributes-order": [

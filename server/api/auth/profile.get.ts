@@ -31,7 +31,6 @@ export default defineEventHandler(async event => {
         throw createError({
             statusCode: 500,
             message: 'Ошибка при получении данных пользователя',
-            message: error.message,
         });
     }
 });

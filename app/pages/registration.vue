@@ -5,12 +5,13 @@ definePageMeta({
     layout: 'admin',
 });
 
-const name = ref<string>('');
-const email = ref<string>('');
-const password = ref<string>('');
-const repeatPassword = ref<string>('');
+const name = ref('');
+const email = ref('');
+const password = ref('');
+const repeatPassword = ref('');
+const isLoading = ref(false);
 
-const isFilledForm = computed((): boolean => {
+const isFilledForm = computed(() => {
     return (
         name.value.length > 0 &&
         email.value.length > 0 &&
@@ -21,6 +22,7 @@ const isFilledForm = computed((): boolean => {
 });
 
 const handleRegistration = async () => {
+    isLoading.value = true;
     try {
         const response = await AuthService.register({
             name: name.value,
@@ -32,6 +34,8 @@ const handleRegistration = async () => {
         }
     } catch (error: any) {
         console.log('Error: ', error);
+    } finally {
+        isLoading.value = false;
     }
 };
 </script>
@@ -66,8 +70,8 @@ const handleRegistration = async () => {
 
         <div class="flex justify-center mt-3">
             <UiButton
-                title="Зарегистрироваться"
-                :disabled="!isFilledForm"
+                :title="isLoading ? 'Отправка...' : 'Зарегистрироваться'"
+                :disabled="!isFilledForm || isLoading"
                 @click="handleRegistration"
             />
         </div>
