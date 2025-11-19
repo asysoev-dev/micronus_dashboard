@@ -1,3 +1,8 @@
+<script setup>
+import { Menu, X } from 'lucide-vue-next';
+const { showSidebarStatus, toggleSidebar } = useSidebar();
+</script>
+
 <template>
     <div class="text-slate-50 text-2xl w-full p-4 md:hidden flex justify-between">
         <LayoutLogo />
@@ -15,15 +20,10 @@
     <div class="bg-brand-950/75 md:bg-brand-950 h-full md:rounded-2xl shadow-xl/30 flex">
         <LayoutSidebar />
         <div
-            class="md:block mt-4 ml-4 mb-4 pr-4 overflow-y-scroll"
+            class="md:block w-full mt-4 ml-4 mb-4 pr-4 overflow-y-scroll"
             :class="{ hidden: showSidebarStatus }"
         >
             <slot />
         </div>
     </div>
 </template>
-
-<script setup>
-import { Menu, X } from 'lucide-vue-next';
-const { showSidebarStatus, toggleSidebar } = useSidebar();
-</script>

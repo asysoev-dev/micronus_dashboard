@@ -67,10 +67,10 @@ html
     transform: translate(-50%, -50%)
     border: 20px solid transparent
     border-radius: 50%
-    background: linear-gradient(100deg, var(--color-brand-700), var(--color-brand-600), var(--color-brand-700))
-    background-size: 200% 200%
-    mask: radial-gradient(circle at center, transparent 30%, black 31%)
-    -webkit-mask: radial-gradient(circle at center, transparent 30%, black 31%)
+    background: linear-gradient(40deg, var(--color-brand-600), var(--color-brand-700) 70%)
+    background-size: 110% 110%
+    mask: radial-gradient(circle at center, transparent 35%, black 36%)
+    -webkit-mask: radial-gradient(circle at center, transparent 35%, black 36%)
     z-index: -1
 
   &::after
@@ -103,4 +103,9 @@ html
 ::-webkit-scrollbar-thumb
   background: var(--color-brand-800)
   border-radius: 4px
+.sidebar-item-triangle
+  // height: 40px
+  // border-top: 24px solid transparent
+  // border-bottom: 24px solid transparent
+  // border-left: 12px solid var(--color-brand-400)
 </style>
