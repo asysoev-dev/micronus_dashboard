@@ -24,6 +24,6 @@ npm run start
 
 - Node.js 18+
 - PostgreSQL 12+
-- Nuxt 3
+- Nuxt 4
 
 ---
